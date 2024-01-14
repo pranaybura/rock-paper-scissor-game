@@ -14,9 +14,8 @@
                 padding: 0;
                 box-sizing: border-box;
             }
-            
             .game-block {
-                height: 500px;
+                height: 600px;
                 margin: 0 auto;
                 width: 100%;
                 max-width: 1200px;
@@ -65,17 +64,18 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                flex-direction: column;
+                /* flex-direction: column; */
                 gap: 10px;
             }
             button {
-                width: 75px;
+                /* width: 75px; */
                 height: 75px;
                 display: block;
                 border: none;
                 background-color: black;
                 cursor: pointer;
-                border-radius: 40px
+                border-radius: 40px;
+                color: white;
             }
             button:hover {
                 background-color: grey;
@@ -83,27 +83,35 @@
             button img {
                 padding: 5px;
             }
+            #start {
+                text-align: center;
+                padding: 10px 60px;
+            }
+            #restart {
+                text-align: center;
+                padding: 10px 60px;
+                display: none;
+            }
             .game-hands img {
                 max-width: 300px;
             }
             .game-buttons img {
                 max-width: 75px;
             }
+            #rock, #paper, #scissors, #restart {
+                visibility: hidden;
+                transition: all .3s ease;
+            }
+            #rock:hover, #paper:hover, #scissors:hover {
+                transform: scale(1.1);
+            }
             
             @keyframes handShake {
                 0%,100% { transform: rotate(10deg); }
                 50% { transform: rotate(-10deg); }
             }
-
-            @keyframes handShake2 {
-                0%,100% { transform: rotate(10deg); }
-                50% { transform: rotate(-10deg); }
-            }
-            .computer-hand {
+            .shake-hand {
                 animation: handShake 1s infinite;
-            }
-            .player-hand {
-                animation: handShake2 1s infinite;
             }
             @media only screen and (max-width: 768px) {
                 .text-block h1 {
@@ -113,7 +121,7 @@
                     font-size: 15px;
                 }
                 button {
-                    width: 50px;
+                    /* width: 50px; */
                     height: 50px;
                 }
                 .game-hands img {
@@ -134,6 +142,8 @@
             </div>
 
             <div class="game-area">
+                <button onclick="gameStart()" id="start">Click to start</button>
+                    <button onclick="gameStart()" id="restart">Restart</button>
                 <div class="game-hands">
                     <div class="computer-hand-section" style="transform: rotateY(180deg);">
                         <div class="computer-hand">
@@ -144,18 +154,70 @@
                         <div class="player-hand">
                             <img src="./rock.png" alt="">
                         </div>
-                        <div class="game-buttons">
-                            <button onclick="game(0)"><img src="./paper.png" alt=""></button>
-                            <button onclick="game(1)"><img src="./rock.png" alt=""></button>
-                            <button onclick="game(2)"><img src="./scissors.png" alt=""></button>
-                        </div>
                     </div>
                 </div>
+                <div class="game-buttons">
+                    
+                    <button onclick="game(0)" id="rock"><img src="./rock.png" alt=""></button>
+                    <button onclick="game(1)" id="paper"><img src="./paper.png" alt=""></button>
+                    <button onclick="game(2)" id="scissors"><img src="./scissors.png" alt=""></button>
+                </div>
+            </div>
+
+            <div>
             </div>
         </section>
 
         <!-- Script Line Start -->
         <script>
+            const start = document.getElementById('start');
+            const restart = document.getElementById('restart');
+            const rock = document.getElementById('rock');
+            const paper = document.getElementById('paper');
+            const scissors = document.getElementById('scissors');
+            const computerHand = document.querySelector('.computer-hand');
+            const playerHand = document.querySelector('.player-hand');
+            const gameButtons = document.querySelector('.game-buttons');
+
+            function gameStart() {
+                start.style.display = 'none';
+                restart.style.display = 'block';
+                restart.style.visibility = 'hidden';
+                rock.style.visibility = 'visible';
+                paper.style.visibility = 'visible';
+                scissors.style.visibility = 'visible';
+
+                computerHand.classList.add('shake-hand');
+                playerHand.classList.add('shake-hand');
+                document.querySelector('.computer-hand img').src = hands[0];
+                document.querySelector('.player-hand img').src = hands[0];
+            }
+
+            const hands = ["rock.png", "paper.png", "scissors.png"];
+
+            function game(position) {
+                var random = Math.floor(Math.random() * 3);
+                document.querySelector('.computer-hand img').src = hands[random];
+                document.querySelector('.player-hand img').src = hands[position];
+
+                computerHand.classList.remove('shake-hand');
+                playerHand.classList.remove('shake-hand');
+
+                rock.style.visibility = 'hidden';
+                paper.style.visibility = 'hidden';
+                scissors.style.visibility = 'hidden';
+
+                if (random == position) {
+                    console.log('Draw');
+                }
+                else if (position == 0 && random == 2 || position == 1 && random == 0 || position == 2 && random == 1) {
+                    console.log('You win');
+                }
+                else {
+                    console.log('You lose');
+                }
+                restart.style.visibility = 'visible';
+            }
 
         </script>
     </section>
