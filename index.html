@@ -4,130 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissor Game</title>
+    
+    <link rel="stylesheet" href="https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-base-new-gnb.min.6bc743086db5bd86cfe7a918f0aa7d1c.css" type="text/css">
+
 </head>
+
 <body>
     <section class="rps-game" id="minigame">
         <!-- Style line Start -->
         <style scoped="scoped">
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            .game-block {
-                height: 600px;
+            .game-container {
                 margin: 0 auto;
+                max-width: 800px;
                 width: 100%;
-                max-width: 1200px;
                 padding: 20px;
                 position: relative;
-                background-color: lightblue;
+                /* background-color: lightblue; */
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
             }
-            .text-block {
-                text-align: center;
-                margin-bottom: 40px;
-            }
-            .text-block h1 {
-                font-size: 40px;
-                font-weight: 700;
-                margin-bottom: 10px;
-            }
-            .text-block p {
-                font-size: 20px;
-                font-weight: 500;
-            }
-            img {
-                max-width: 100%;
-            }
-            .game-area {
+            .game-container > .game-area {
+                position: relative;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
             }
-            .game-hands {
+            .game-area > .start {
+                position: absolute;
+                top: 60%; /* Center vertically */
+                left: 50%; /* Center horizontally */
+                transform: translate(-50%, -50%); /* Center the strip precisely */
+                z-index: 1;
+            }
+            .game-area > .game-hands {
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
-            .player-hand-section {
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            .game-area > .game-result {
+                margin-bottom: 1em;
+            }   
+            .game-hands > .computer-hand-section > .computer-hand img,
+            .game-hands > .player-hand-section > .player-hand img {
+                padding: 5px;
+                max-width: 400px;
             }
-            
-            .game-buttons {
-                display: flex;
+            .game-option-buttons {
+                display: none;
                 justify-content: center;
                 align-items: center;
-                /* flex-direction: column; */
                 gap: 10px;
             }
-            button {
-                /* width: 75px; */
-                height: 75px;
+            .game-option-buttons > .option-button {
+                height: 80px;
                 display: block;
                 border: none;
                 background-color: black;
                 cursor: pointer;
                 border-radius: 40px;
                 color: white;
+                transition: transform .3s ease;
             }
-            button:hover {
-                background-color: grey;
-            }
-            button img {
-                padding: 5px;
-            }
-            #start {
-                text-align: center;
-                padding: 10px 60px;
-            }
-            #restart {
-                text-align: center;
-                padding: 10px 60px;
-                display: none;
-            }
-            .game-hands img {
-                max-width: 300px;
-            }
-            .game-buttons img {
-                max-width: 75px;
-            }
-            #rock, #paper, #scissors, #restart {
-                visibility: hidden;
-                transition: all .3s ease;
-            }
-            #rock:hover, #paper:hover, #scissors:hover {
+            .game-option-buttons > .option-button:hover {
                 transform: scale(1.1);
             }
-            
+            .game-option-buttons > .option-button img {
+                padding: 5px;
+                max-width: 80px;
+            }
+            .completion-strip {
+                display: none;
+                background-color: rgb(0, 0, 0);
+                width: 100%;
+                color: white;
+                text-align: center;
+                z-index: 1;
+                padding: 1em;
+                border-radius: 20px;
+                text-align: center;
+                margin: 0 auto;
+            }
+            .completion-strip > * {
+                margin-bottom: 0.6em;
+            }
+
+            /* Animation */
             @keyframes handShake {
                 0%,100% { transform: rotate(10deg); }
                 50% { transform: rotate(-10deg); }
             }
+            /* Animation property */
             .shake-hand {
                 animation: handShake 1s infinite;
             }
-            @media only screen and (max-width: 768px) {
-                .text-block h1 {
-                    font-size: 30px;
+
+            /* Media screens */
+            @media only screen and (max-width: 767px) {
+                .game-option-buttons > .option-button {
+                    height: 70px;
                 }
-                .text-block p {
-                    font-size: 15px;
+                .game-hands > .computer-hand-section > .computer-hand img,
+                .game-hands > .player-hand-section > .player-hand img {
+                    max-width: 300px;
                 }
-                button {
-                    /* width: 50px; */
+                .game-option-buttons > .option-button img {
+                    max-width: 70px;
+                }
+            }
+            @media only screen and (max-width: 600px) {
+                .game-option-buttons > .option-button {
+                    height: 60px;
+                }
+                .game-hands > .computer-hand-section > .computer-hand img,
+                .game-hands > .player-hand-section > .player-hand img {
+                    max-width: 200px;
+                }
+                .game-option-buttons > .option-button img {
+                    max-width: 60px;
+                }
+            }
+            @media only screen and (max-width: 400px) {
+                .game-option-buttons > .option-button {
                     height: 50px;
                 }
-                .game-hands img {
-                    max-width: 150px;
+                .game-hands > .computer-hand-section > .computer-hand img,
+                .game-hands > .player-hand-section > .player-hand img {
+                    max-width: 160px;
                 }
-                .game-buttons img {
+                .game-option-buttons > .option-button img {
                     max-width: 50px;
                 }
             }
@@ -135,15 +142,10 @@
         </style>
 
         <!-- HTML line Start -->
-        <section class="game-block">
-            <div class="text-block">
-                <h1>Rock paper scissors</h1>
-                <p>Play the game to win the voucher code</p>
-            </div>
+        <section class="game-container">
 
             <div class="game-area">
-                <button onclick="gameStart()" id="start">Click to start</button>
-                    <button onclick="gameStart()" id="restart">Restart</button>
+                <button class="start cta cta--contained cta--black" onclick="gameStart()">Click to start</button>
                 <div class="game-hands">
                     <div class="computer-hand-section" style="transform: rotateY(180deg);">
                         <div class="computer-hand">
@@ -156,37 +158,47 @@
                         </div>
                     </div>
                 </div>
-                <div class="game-buttons">
-                    
-                    <button onclick="game(0)" id="rock"><img src="./rock.png" alt=""></button>
-                    <button onclick="game(1)" id="paper"><img src="./paper.png" alt=""></button>
-                    <button onclick="game(2)" id="scissors"><img src="./scissors.png" alt=""></button>
+                <div class="game-option-buttons">
+                    <button class="option-button" onclick="game(0)" id="rock">
+                        <img src="./rock.png" alt="">
+                    </button>
+                    <button class="option-button" onclick="game(1)" id="paper">
+                        <img src="./paper.png" alt="">
+                    </button>
+                    <button class="option-button" onclick="game(2)" id="scissors">
+                        <img src="./scissors.png" alt="">
+                    </button>
+                </div>
+                <div class="game-result">
+                    <h2 class="game-result-text"></h2>
                 </div>
             </div>
 
-            <div>
+            <div class="completion-strip">
+                <h2>Thank you for Playing</h2>
+                <p>Here's your $50 Voucher code* to use at checkout:</p>
+                <h1 id="voucher-code">NZBS2024</h1>
+                <button class="cta cta--contained cta--white" onclick="copyToClipboard()">&nbsp;Copy code&nbsp;</button>
+                <div><p id="copymesssage"></p></div>
+                <button class="cta cta--contained cta--white" onclick="gameStart()">Reset Game</button>
             </div>
+
         </section>
 
         <!-- Script Line Start -->
         <script>
-            const start = document.getElementById('start');
-            const restart = document.getElementById('restart');
-            const rock = document.getElementById('rock');
-            const paper = document.getElementById('paper');
-            const scissors = document.getElementById('scissors');
+            const start = document.querySelector('.start');
             const computerHand = document.querySelector('.computer-hand');
             const playerHand = document.querySelector('.player-hand');
-            const gameButtons = document.querySelector('.game-buttons');
+            const gameOptionButtons = document.querySelector('.game-option-buttons');
+            const completionStrip = document.querySelector('.completion-strip');
+            const gameResultText = document.querySelector('.game-result-text');
 
             function gameStart() {
                 start.style.display = 'none';
-                restart.style.display = 'block';
-                restart.style.visibility = 'hidden';
-                rock.style.visibility = 'visible';
-                paper.style.visibility = 'visible';
-                scissors.style.visibility = 'visible';
-
+                gameResultText.textContent = '';
+                completionStrip.style.display = 'none';
+                gameOptionButtons.style.display = 'flex';
                 computerHand.classList.add('shake-hand');
                 playerHand.classList.add('shake-hand');
                 document.querySelector('.computer-hand img').src = hands[0];
@@ -203,20 +215,49 @@
                 computerHand.classList.remove('shake-hand');
                 playerHand.classList.remove('shake-hand');
 
-                rock.style.visibility = 'hidden';
-                paper.style.visibility = 'hidden';
-                scissors.style.visibility = 'hidden';
-
                 if (random == position) {
-                    console.log('Draw');
+                    // console.log('Draw');
+                    gameResultText.textContent = `It's a Draw`;
                 }
                 else if (position == 0 && random == 2 || position == 1 && random == 0 || position == 2 && random == 1) {
-                    console.log('You win');
+                    // console.log('You win');
+                    gameResultText.textContent = `Congratulations, you win`;
                 }
                 else {
-                    console.log('You lose');
+                    // console.log('You lose');
+                    gameResultText.textContent = `Sorry, you lose`;
                 }
-                restart.style.visibility = 'visible';
+
+                gameOptionButtons.style.display = 'none';
+
+                completionStrip.style.display = 'block';
+            }
+
+            function copyToClipboard() {
+                const voucherCodeElement = document.getElementById('voucher-code');
+                const voucherCode = voucherCodeElement.textContent;
+
+                // Create a temporary textarea element to copy the text to the clipboard
+                const textarea = document.createElement('textarea');
+                textarea.value = voucherCode;
+                document.body.appendChild(textarea);
+
+                // Select and copy the text
+                textarea.select();
+                document.execCommand('copy');
+
+                // Remove the temporary textarea
+                document.body.removeChild(textarea);
+
+                // Display a message on the screen
+                // const copyMessage = document.createElement('p');
+                // copyMessage.textContent = 'Code copied to clipboard';
+                document.getElementById('copymesssage').innerHTML = 'Code copied to clipboard';
+
+                // Automatically remove the message after a few seconds
+                setTimeout(() => {
+                    document.getElementById('copymesssage').innerHTML = '';
+                }, 3000); // 3 seconds
             }
 
         </script>
